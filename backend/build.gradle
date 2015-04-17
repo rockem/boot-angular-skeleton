@@ -81,6 +81,23 @@ def stopMongoDB(mongoPort) {
     }
 }
 
+task createApplicationYml {
+    def defaultYml = "application.yml.default"
+    def ymlTarget = "$buildDir/$defaultYml"
+    outputs.file file(ymlTarget)
+    doLast {
+        copy {
+            from "$projectDir/src/main/resources/application.yml"
+            into buildDir
+            rename "application.yml", defaultYml
+        }
+    }
+}
+
+applicationDistribution.from(createApplicationYml) {
+    into "bin"
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
