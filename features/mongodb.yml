@@ -1,0 +1,10 @@
+net:
+  bindIp: localhost
+storage:
+  dbPath: data
+processManagement:
+   fork: true
+systemLog:
+   destination: file
+   path: "log/mongodb.log"
+   logAppend: true

@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-release" }
+        maven { url "http://dl.bintray.com/robfletcher/gradle-plugins" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.1.10.RELEASE"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    //compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.data:spring-data-jpa:1.7.2.RELEASE'
+    compile 'org.springframework.data:spring-data-mongodb:1.6.2.RELEASE'
+    compile 'com.google.code.gson:gson:2.3.1'
+
+    testCompile 'org.springframework:spring-test:4.1.4.RELEASE'
+    testCompile 'com.jayway.jsonpath:json-path:1.2.0'
+
+    testCompile 'junit:junit:4.11'
+    testCompile "org.mockito:mockito-core:1.+"
+}
+
+task resolveNPMDependencies(type:Exec) {
+    workingDir 'src/main/resources/public'
+    commandLine "npm", "install"
+}
+assemble.dependsOn resolveNPMDependencies
+
+def getArgsFor(String... args) {
+    def os = System.getProperty("os.name").toLowerCase()
+    if (os.contains("windows"))
+    {
+        return ["cmd", "/c"] + args
+    }  else { // assume Linux
+        return args
+    }
+}
+
+def mongoPort = 27017
+
+task startMongo << {
+    startMongoDB(mongoPort)
+    println "MongoDB started on port $mongoPort"
+}
+
+def startMongoDB(mongoPort) {
+    exec {
+        workingDir projectDir
+        commandLine getArgsFor("mongod", "--config", "mongodb.yml", "--port", "$mongoPort")
+    }
+}
+
+task stopMongo << {
+    stopMongoDB(mongoPort)
+    println "MongoDB stopped on port $mongoPort"
+}
+
+def stopMongoDB(mongoPort) {
+    exec {
+        workingDir projectDir
+        commandLine getArgsFor("mongo", "--port", "$mongoPort", "--eval", "db.getSiblingDB('admin').shutdownServer()")
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}

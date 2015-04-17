@@ -1,0 +1,7 @@
+resources:
+  projectroot:
+server:
+  port: 8888
+mongo:
+    url: "localhost"
+    db: "goodtimes_test"

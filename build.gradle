@@ -1,0 +1,6 @@
+apply plugin: 'java'
+apply from: 'gradle/ide.gradle'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
