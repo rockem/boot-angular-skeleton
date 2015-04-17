@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -21,6 +22,7 @@ public class RunFeatures {
 
     @BeforeClass
     public static void startBackend() throws IOException {
+        createDirsForMongoDB();
         try {
             runProcessFor("mongod",
                     "--config", "mongodb.yml",
@@ -28,6 +30,15 @@ public class RunFeatures {
             backend = SpringApplication.run(Application.class);
         } catch(ProcessInvocationException e) {
             System.exit(1);
+        }
+    }
+
+    private static void createDirsForMongoDB() {
+        try {
+            new File("data").mkdir();
+            new File("log").mkdir();
+        }catch(Exception e) {
+            // Swallow
         }
     }
 
