@@ -1,3 +1,9 @@
-# goodtimes
+# Spring boot + AngularJS skeleton
 
-Auto scheduling app that will make your social life much better
+This is a simple skeleton for a web app based on spring boot
+I demonstrate the use of these technologies:
+- Gradle
+- Spring boot
+- AngularJS
+- MongoDB
+- Selenium
