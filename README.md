@@ -12,12 +12,14 @@ This is a simple skeleton for a web app based on spring boot
 - Less
 
 ## How to use it?
-
-To run the backend do: ./gradlew bootRun
-To start mongo for the backend do: ./gradlew startMongo
-To stop mongo for the backend do: ./gradlew stopMongo
-To run the acceptance tests do: ./gradlew runFeatures
-
+### Run the backend
+./gradlew bootRun
+### Start mongo for the backend
+./gradlew startMongo
+### Stop backend's mongo
+./gradlew stopMongo
+### Run the acceptance tests
+./gradlew runFeatures
 
 ## How to run acceptance tests?
 ./gradlew runFeatures
