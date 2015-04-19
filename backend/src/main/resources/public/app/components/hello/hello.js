@@ -14,7 +14,7 @@ angular.module('myApp.hello', ['ngRoute','ngResource'])
     }])
 
     .controller('HelloCtrl', function ($scope, Hello) {
-        $scope.greeting = Hello.get(function(greeting) {
-            $scope.greeting = greeting.greeting
+        Hello.get(function(result) {
+            $scope.greeting = result.greeting
         })
     });
